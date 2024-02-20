@@ -1,0 +1,25 @@
+@page "/TodoList"
+@rendermode InteractiveServer
+
+<PageTitle>Lista de quehaceres</PageTitle>
+
+<h1>Tu lista de tareas</h1>
+
+<label for="tarea">Tarea: </label>
+<input type="text" name="tarea" id="tarea" @bind="Tarea">
+<button type="button" class="btn btn-primary" @onclick="Agregar">Agregar tarea</button>
+<p>Tareas: </p>
+<ul>
+    @foreach (var uno in Muchos) {
+        <li>@uno</li>
+    }
+</ul>
+
+@code {
+    protected string Tarea {get; set;}
+    protected List<string> Muchos = new List<string>();
+    protected void Agregar() {
+        Muchos.Add(Tarea);
+        Tarea = "";
+    }
+}
