@@ -10,6 +10,9 @@
 <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar tarea</button>
 <p>Tareas: </p>
 <ul>
+    @* @foreach (var uno in info) {
+        <li>@uno</li>
+    } *@
     @foreach (var uno in Muchos) {
         <li>@uno</li>
     }
@@ -22,4 +25,6 @@
         Muchos.Add(Tarea);
         Tarea = "";
     }
+    @* [Parameter]
+    public List<string> info {get; set;} *@
 }
