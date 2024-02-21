@@ -14,16 +14,33 @@
         <li>@uno</li>
     } *@
     @foreach (var uno in Muchos) {
-        <li>@uno</li>
+        <li>@uno.tarea</li>
     }
 </ul>
 
+<table style="margin-left: auto; margin-right: auto; border: 1px black solid;">
+    @foreach (var uno in Muchos) {
+        <tr>
+            <td style="border: 1px black solid;">@uno.tarea</td>
+            <td style="border: 1px black solid;">@uno.tamaño</td>
+        </tr>
+    }
+</table>
+
 @code {
     protected string Tarea {get; set;}
-    protected List<string> Muchos = new List<string>();
+    protected List<QueHacer> Muchos = new List<QueHacer>();
     protected void Agregar() {
-        Muchos.Add(Tarea);
+        Muchos.Add(new QueHacer(Tarea));
         Tarea = "";
+    }
+    protected class QueHacer {
+        public string tarea {get; set;}
+        public int tamaño {get; set;}
+        public QueHacer(string _tarea) {
+            tarea = _tarea;
+            tamaño = tarea.Length;
+        }
     }
     @* [Parameter]
     public List<string> info {get; set;} *@
