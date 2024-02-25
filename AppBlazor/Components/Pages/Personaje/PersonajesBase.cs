@@ -10,7 +10,6 @@ namespace AppBlazor.Components
         public List<Personaje> listaPersonajes {get; set;}
 
         protected override async Task OnInitializedAsync() {
-            listaPersonajes 
         }
     }
 }
