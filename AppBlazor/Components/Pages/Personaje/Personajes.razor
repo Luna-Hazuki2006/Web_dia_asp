@@ -1,9 +1,176 @@
 @page "/Personajes"
+@inherits PersonajesBase
 
 <PageTitle>Lista de personajes</PageTitle>
 
 <h1>Lista de personajes</h1>
 
-@if (listaPersonajes == null) {
+<div>
+    <label for="Borrado">Id: </label>
+    <input type="number" name="Borrado" id="Borrado" @bind="Borrado" required>
+    <button type="button" @onclick="Borrar">Borrar</button><br><br>
+</div>
+<div>
+    <label for="Modificado">Id: </label>
+    <input type="number" name="Modificado" id="Modificado" @bind="Modificado" required>
+    <button type="button" @onclick="Modificar">Modificar (o consultar)</button><br><br>
+</div>
 
+@if (listaPersonajes == null) {
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Nivel</th>
+            <th>Tipo</th>
+            <th>Inventario</th>
+        </tr>
+    @foreach (var personaje in listaPersonajes) {
+        <tr>
+            <td>@personaje.Id</td>
+            <td>@personaje.Nombre</td>
+            <td>@personaje.Nivel</td>
+            <td>@personaje.Tipo</td>
+            <td>@personaje.Inventario</td>
+        </tr>
+    }
+    </table>
+}
+
+<div>
+    <label for="Id">Id: </label>
+    <input type="text" name="Id" id="Id" @bind="Id" readonly><br>
+    <label for="Nombre">Nombre: </label>
+    <input type="text" name="Nombre" id="Nombre" @bind="Nombre" required><br>
+    <label for="Nivel">Nivel: </label>
+    <input type="number" name="Nivel" id="Nivel" @bind="Nivel" required><br>
+    <label for="Tipo">Tipo: </label>
+    <input type="text" name="Tipo" id="Tipo" @bind="Tipo" required><br>
+    <label for="Salud">Salud: </label>
+    <input type="number" name="Salud" id="Salud" @bind="Salud" required><br>
+    <label for="Energia">Energia: </label>
+    <input type="number" name="Energia" id="Energia" @bind="Energia" required><br>
+    <label for="Fuerza">Fuerza: </label>
+    <input type="number" name="Fuerza" id="Fuerza" @bind="Fuerza" required><br>
+    <label for="Inteligencia">Inteligencia: </label>
+    <input type="number" name="Inteligencia" id="Inteligencia" @bind="Inteligencia" required><br>
+    <label for="Agilidad">Agilidad: </label>
+    <input type="number" name="Agilidad" id="Agilidad" @bind="Agilidad" required><br>
+    <label for="Defensa">Defensa: </label>
+    <input type="number" name="Defensa" id="Defensa" @bind="Defensa" required><br>
+    <label for="Resistencia">Resistencia: </label>
+    <input type="number" name="Resistencia" id="Resistencia" @bind="Resistencia" required><br>
+    <label for="Experiencia">Experiencia: </label>
+    <input type="number" name="Experiencia" id="Experiencia" @bind="Experiencia" required><br>
+    <label for="Inventario">Inventario: </label>
+    <input type="text" name="Inventario" id="Inventario" @bind="Inventario" required><br>
+    <button type="button" @onclick="CambioLista">Hacer un cambio</button>
+    <button type="button" @onclick="Limpiar">Limpiar texto</button>
+</div>
+
+@code {
+    protected int Borrado {get; set;}
+    protected int Modificado {get; set;}
+    protected string Id {get; set;}
+    protected string Nombre {get; set;}
+    protected int Nivel {get; set;}
+    protected string Tipo {get; set;}
+    protected double Salud {get; set;}
+    protected double Energia {get; set;}
+    protected double Fuerza {get; set;}
+    protected double Inteligencia {get; set;}
+    protected double Agilidad {get; set;}
+    protected double Defensa {get; set;}
+    protected double Resistencia {get; set;}
+    protected double Experiencia {get; set;}
+    protected string Inventario {get; set;}
+    public List<Personaje> listaPersonajes = new List<Personaje>();
+
+    public Personaje ObtencionDatos() {
+        Personaje personaje = new Personaje();
+        personaje.Nombre = Nombre;
+        personaje.Nivel = Nivel;
+        personaje.Tipo = Tipo;
+        personaje.Salud = Salud;
+        personaje.Energia = Energia; 
+        personaje.Fuerza = Fuerza;
+        personaje.Inteligencia = Inteligencia; 
+        personaje.Agilidad = Agilidad;
+        personaje.Defensa = Defensa; 
+        personaje.Resistencia = Resistencia; 
+        personaje.Experiencia = Experiencia; 
+        personaje.Inventario = Inventario;
+        return personaje;
+    }
+
+    public void CambioLista() {
+        foreach (var personaje in listaPersonajes) {
+            if (Id == personaje.Id) {
+                Modificar();
+                return;
+            }
+        }
+        Crear();
+    }
+
+    public void Limpiar() {
+        Id = 0;
+        Nombre = "";
+        Nivel = 0;
+        Tipo = "";
+        Salud = 0.0;
+        Energia = 0.0; 
+        Fuerza = 0.0;
+        Inteligencia = 0.0; 
+        Agilidad = 0.0;
+        Defensa = 0.0; 
+        Resistencia = 0.0; 
+        Experiencia = 0.0; 
+        Inventario = "";
+    }
+
+    public void Crear() {
+        Personaje personaje = ObtencionDatos();
+        if (listaPersonajes.Count == 0) personaje.Id = 1;
+        else personaje.Id = listaPersonajes.Last().Id + 1;
+        listaPersonajes.Add(personaje);
+        Limpiar();
+    }
+
+    public void Borrar() {
+        foreach (var personaje in listaPersonajes) {
+            if (personaje.Id == Borrado) {
+                listaPersonajes.Remove(personaje);
+                return;
+            }
+        }
+    }
+
+    public void Modificar() {
+        Personaje personajeActualizado = ObtencionDatos();
+        foreach (var personaje in listaPersonajes) {
+            if (personaje.Id == Modificado) {
+                personaje = personajeActualizado;
+                Limpiar();
+                return
+            }
+        }
+    }
+
+    public class Personaje
+    {
+        public int Id {get; set;}
+        public string? Nombre {get; set;}
+        public int Nivel {get; set;}
+        public string? Tipo {get; set;}
+        public double Salud {get; set;}
+        public double Energia {get; set;}
+        public double Fuerza {get; set;}
+        public double Inteligencia {get; set;}
+        public double Agilidad {get; set;}
+        public double Defensa {get; set;}
+        public double Resistencia {get; set;}
+        public double Experiencia {get; set;}
+        public string? Inventario {get; set;}
+    }
 }
