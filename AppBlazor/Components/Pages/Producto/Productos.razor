@@ -1,0 +1,44 @@
+@page "/productos"
+@rendermode InteractiveServer
+@inherits ProductosBase
+
+<PageTitle>Lista Productos</PageTitle>
+
+<h1>Lista de productos</h1>
+
+@if(lstProductos == null) {
+    <p><em>Loading...</em></p>
+}
+else {
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Imagen</th>
+                <th>Precio</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var producto in lstProductos){
+                <tr>
+                    <td>@producto.Id</td>
+                    <td>@producto.Titulo</td>
+                    <td>@producto.Descripcion</td>
+                    <td>
+                        <img src="@producto.Imagen" alt="@producto.Titulo">
+                    </td>
+                    <td>@producto.Precio</td>
+                    <td><button type="button">Modificar</button></td>
+                    <td><button type="button">Eliminar</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" @onclick="Create">Crear</button>
+}
+
+        
